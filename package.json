@@ -3,9 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{,ts,jsx,ts,tsx}": [
+      "npm run lintfix",
+      "npm run lint",
+      "git add"
+    ]
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/**/*.ts --max-warnings=0"
+    "lint": "eslint src/**/*.ts --max-warnings=0",
+    "lintfix": "eslint src/**/*.ts --fix",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +30,8 @@
     "eslint": "^8.56.0",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^15.4.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.5",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.12.0"
   }
