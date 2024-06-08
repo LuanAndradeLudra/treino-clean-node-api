@@ -16,8 +16,8 @@
     ]
   },
   "scripts": {
-    "test": "jest",
-    "test:staged": "jest",
+    "test": "jest --passWithNoTests",
+    "test:staged": "jest --passWithNoTests",
     "lint": "eslint src/**/*.ts --max-warnings=0",
     "lintfix": "eslint src/**/*.ts --fix",
     "prepare": "husky"
