@@ -10,7 +10,6 @@
   },
   "lint-staged": {
     "src/**/*.{,ts,jsx,ts,tsx}": [
-      "npm run lintfix",
       "npm run lint",
       "npm run test:staged"
     ]
