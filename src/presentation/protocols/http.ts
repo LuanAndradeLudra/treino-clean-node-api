@@ -4,5 +4,5 @@ export interface httpRequest {
 
 export interface httpResponse {
   statusCode: number
-  body?: object
+  body?: Error
 }
