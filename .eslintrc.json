@@ -20,7 +20,8 @@
     // Regras específicas do ESLint e do TypeScript
     "no-unused-vars": "error", // Proibir variáveis não utilizadas
     "no-undef": "error", // Proibir o uso de variáveis não definidas
-    "prefer-const": ["error", { "ignoreReadBeforeAssign": true }] // Preferir o uso de const quando possível
+    "prefer-const": ["error", { "ignoreReadBeforeAssign": true }], // Preferir o uso de const quando possível
+    "@typescript-eslint/explicit-function-return-type": "error"
   },
   "env": {
     "jest": true
