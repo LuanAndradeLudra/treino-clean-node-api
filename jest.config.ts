@@ -1,8 +1,8 @@
-import type { Config } from 'jest';
+import type { Config } from 'jest'
 
 const config: Config = {
   roots: ['<rootDir>/src'],
-  
+
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
@@ -12,18 +12,18 @@ const config: Config = {
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   // The test environment that will be used for testing
-  testEnvironment: "jest-environment-node",
+  testEnvironment: 'jest-environment-node',
 
   // A map from regular expressions to paths to transformers
   transform: {
     '.+\\.ts$': 'ts-jest'
-  },
-};
+  }
+}
 
-export default config;
+export default config
