@@ -10,7 +10,7 @@
     "comma-spacing": "warn", // Espaçamento após vírgulas
     "arrow-spacing": "warn", // Espaçamento antes e depois da seta de funções arrow
     "no-multi-spaces": "warn", // Proibir múltiplos espaços em uma linha
-
+    "eqeqeq": ["error", "always"], // Força o uso de ===
     // Remoção de console.log
     "no-console": "error", // Proibir o uso de console.log
 
