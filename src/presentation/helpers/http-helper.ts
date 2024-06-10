@@ -1,7 +1,7 @@
-import { MissingParamError, ServerError } from '../errors'
+import { ServerError } from '../errors'
 import { httpResponse } from '../protocols'
 
-export const badRequest = (error: MissingParamError): httpResponse => ({
+export const badRequest = (error: Error): httpResponse => ({
   statusCode: 400,
   body: error
 })
