@@ -6,13 +6,19 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm run test:ci"
+      "pre-push": "lint-push"
     }
   },
   "lint-staged": {
     "src/**/*.{,ts,jsx,ts,tsx}": [
       "npm run lint",
       "npm run test:staged"
+    ]
+  },
+  "lint-push": {
+    "src/**/*.{,ts,jsx,ts,tsx}": [
+      "npm run lint",
+      "npm run test:ci"
     ]
   },
   "scripts": {
