@@ -8,8 +8,9 @@ interface SutTypes {
 
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     encrypt(value: string): Promise<string> {
-      if (value) return new Promise((resolve) => resolve('hashed_value'))
+      return new Promise((resolve) => resolve('hashed_value'))
     }
   }
   return new EncrypterStub()
@@ -35,5 +36,17 @@ describe('DbAddAccount UseCase', () => {
     }
     sut.add(accountData)
     expect(encryptSpy).toHaveBeenCalledWith(accountData['password'])
+  })
+
+  test('Should throw if Encrypter throws', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((_, reject) => reject(new Error())))
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password'
+    }
+    const promise = sut.add(accountData)
+    await expect(promise).rejects.toThrow()
   })
 })
