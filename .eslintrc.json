@@ -25,6 +25,7 @@
     "no-return-await": "error"
   },
   "env": {
-    "jest": true
+    "jest": true,
+    "node": true
   }
 }
