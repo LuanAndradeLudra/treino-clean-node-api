@@ -1,12 +1,12 @@
-import { Controller, httpRequest, httpResponse } from '../../presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols'
 import { LogControllerDecorator } from './log'
 
 describe('LogController Decorator', () => {
   test('Should call controller handle', async () => {
     class ControllerStub implements Controller {
       // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-      handle(httpRequest: httpRequest): Promise<httpResponse> {
-        const httpResponse: httpResponse = {
+      handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+        const httpResponse: HttpResponse = {
           statusCode: 200,
           body: {
             name: 'Luan'

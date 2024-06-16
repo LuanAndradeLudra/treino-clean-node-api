@@ -1,6 +1,6 @@
-import { httpRequest, httpResponse } from './http'
+import { HttpRequest, HttpResponse } from './http'
 
 export interface Controller {
   // eslint-disable-next-line no-unused-vars
-  handle(httpRequest: httpRequest): Promise<httpResponse>
+  handle(httpRequest: HttpRequest): Promise<HttpResponse>
 }

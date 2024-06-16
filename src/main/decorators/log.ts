@@ -1,4 +1,4 @@
-import { Controller, httpRequest, httpResponse } from '../../presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols'
 
 export class LogControllerDecorator implements Controller {
   private readonly controller: Controller
@@ -6,8 +6,8 @@ export class LogControllerDecorator implements Controller {
     this.controller = controller
   }
 
-  async handle(httpRequest: httpRequest): Promise<httpResponse> {
-    const httpResponse: httpResponse = await this.controller.handle(httpRequest)
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    const httpResponse: HttpResponse = await this.controller.handle(httpRequest)
     if (httpResponse.statusCode === 500) {
       //log
     }
