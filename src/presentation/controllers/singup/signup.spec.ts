@@ -1,5 +1,5 @@
 import { SignUpController } from './singup'
-import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
+import { MissingParamError, InvalidParamError } from '../../errors'
 import { IAddAccount, IAddAccountModel, IAccountModel, IEmailValidator, IHttpRequest } from './signup-protocols'
 import { created, serverError, badRequest } from '../../helpers/http-helper'
 
@@ -112,7 +112,7 @@ describe('SignUp Controller', () => {
       throw new Error()
     })
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError(null)))
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should call AddAccount with correct values', async () => {
@@ -128,7 +128,7 @@ describe('SignUp Controller', () => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(serverError(new ServerError(null)))
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should return 201 if valid data is provided', async () => {
