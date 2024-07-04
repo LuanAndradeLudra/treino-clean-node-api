@@ -28,7 +28,7 @@ export class SignInController implements IController {
 
       if (!accessToken) return unauthorized()
 
-      return Promise.resolve(ok())
+      return ok({ accessToken })
     } catch (error) {
       return serverError(error)
     }
