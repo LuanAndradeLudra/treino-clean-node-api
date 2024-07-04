@@ -41,13 +41,13 @@ const makeFakeRequest = (exclude: string[] = []): IHttpRequest => {
   return httpRequest
 }
 
-interface SutTypes {
+interface ISutTypes {
   sut: SignUpController
   emailValidatorStub: IEmailValidator
   addAccountStub: IAddAccount
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): ISutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const addAccountStub = makeAddAccount()
   const sut = new SignUpController(emailValidatorStub, addAccountStub)

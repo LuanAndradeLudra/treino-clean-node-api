@@ -3,11 +3,11 @@ import { badRequest } from '../../helpers/http-helper'
 import { IHttpRequest } from '../../protocols'
 import { SignInController } from './signin'
 
-interface SutTypes {
+interface ISutTypes {
   sut: SignInController
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): ISutTypes => {
   const sut = new SignInController()
   return { sut }
 }

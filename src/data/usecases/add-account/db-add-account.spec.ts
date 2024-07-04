@@ -34,13 +34,13 @@ const makeAddAccountRepository = (): IAddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
-interface SutTypes {
+interface ISutTypes {
   sut: DbAddAccount
   encrypterStub: IEncrypter
   addAccountRepositoryStub: IAddAccountRepository
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): ISutTypes => {
   const encrypterStub = makeEncrypter()
   const addAccountRepositoryStub = makeAddAccountRepository()
   const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub)
