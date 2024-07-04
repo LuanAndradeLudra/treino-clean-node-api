@@ -1,6 +1,6 @@
 import { IAuthenticator } from '../../../domain/usecases/authenticator'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, ok, serverError } from '../../helpers/http-helper'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helper'
 import { IController, IHttpRequest, IHttpResponse } from '../../protocols'
 import { IEmailValidator } from '../singup/signup-protocols'
 
@@ -26,7 +26,9 @@ export class SignInController implements IController {
 
       if (!isValid) return badRequest(new InvalidParamError('email'))
 
-      await this.authenticator.auth(httpRequest.body['email'], httpRequest.body['password'])
+      const accessToken = await this.authenticator.auth(httpRequest.body['email'], httpRequest.body['password'])
+
+      if (!accessToken) return unauthorized()
 
       return Promise.resolve(ok())
     } catch (error) {
