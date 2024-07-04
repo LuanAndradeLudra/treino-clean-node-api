@@ -1,5 +1,4 @@
-export interface IAccountModel {
-  id: string
+export interface IAddAccountModel {
   name: string
   email: string
   password: string

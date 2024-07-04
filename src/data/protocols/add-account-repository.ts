@@ -1,7 +1,7 @@
-import { AddAccountModel } from '../usecases/add-account/db-add-account-protocols'
-import { AccountModel } from '../../domain/models/account'
+import { IAccountModel } from '../../domain/models/account'
+import { IAddAccountModel } from '../../domain/models/add-account'
 
-export interface AddAccountRepository {
+export interface IAddAccountRepository {
   // eslint-disable-next-line no-unused-vars
-  add(accountData: AddAccountModel): Promise<AccountModel>
+  add(accountData: IAddAccountModel): Promise<IAccountModel>
 }

@@ -1,6 +1,6 @@
-import { HttpRequest, HttpResponse } from './http'
+import { IHttpRequest, IHttpResponse } from './http'
 
-export interface Controller {
+export interface IController {
   // eslint-disable-next-line no-unused-vars
-  handle(httpRequest: HttpRequest): Promise<HttpResponse>
+  handle(httpRequest: IHttpRequest): Promise<IHttpResponse>
 }

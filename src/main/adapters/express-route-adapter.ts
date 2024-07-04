@@ -1,12 +1,12 @@
-import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols'
+import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols'
 import { Request, Response } from 'express'
 
-export const adaptRoute = (controller: Controller) => {
+export const adaptRoute = (controller: IController) => {
   return async (req: Request, res: Response): Promise<void> => {
-    const httpRequest: HttpRequest = {
+    const httpRequest: IHttpRequest = {
       body: req.body
     }
-    const httpResponse: HttpResponse = await controller.handle(httpRequest)
+    const httpResponse: IHttpResponse = await controller.handle(httpRequest)
     if (httpResponse.statusCode === 200 || httpResponse.statusCode === 201) {
       res.status(httpResponse.statusCode).json(httpResponse.body)
     } else {

@@ -1,10 +1,10 @@
 import { MissingParamError } from '../../errors'
 import { badRequest, ok } from '../../helpers/http-helper'
-import { Controller, HttpRequest, HttpResponse } from '../../protocols'
+import { IController, IHttpRequest, IHttpResponse } from '../../protocols'
 
-export class SignInController implements Controller {
+export class SignInController implements IController {
   // eslint-disable-next-line require-await
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const requiredFields = ['email']
     for (const field of requiredFields) {
       if (!httpRequest.body[field]) {

@@ -1,27 +1,27 @@
 import { SignUpController } from './singup'
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
-import { AddAccount, AddAccountModel, AccountModel, EmailValidator, HttpRequest } from './signup-protocols'
+import { IAddAccount, IAddAccountModel, IAccountModel, IEmailValidator, IHttpRequest } from './signup-protocols'
 import { created, serverError, badRequest } from '../../helpers/http-helper'
 
-const makeAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
+const makeAddAccount = (): IAddAccount => {
+  class AddAccountStub implements IAddAccount {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars, require-await
-    async add(account: AddAccountModel): Promise<AccountModel> {
+    async add(account: IAddAccountModel): Promise<IAccountModel> {
       return new Promise((resolve) => resolve(makeFakeAccount()))
     }
   }
   return new AddAccountStub()
 }
 
-const makeFakeAccount = (): AccountModel => ({
+const makeFakeAccount = (): IAccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
 })
 
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
+const makeEmailValidator = (): IEmailValidator => {
+  class EmailValidatorStub implements IEmailValidator {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     isValid(email: string): boolean {
       return true
@@ -30,8 +30,8 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
-const makeFakeRequest = (exclude: string[] = []): HttpRequest => {
-  const httpRequest: HttpRequest = {
+const makeFakeRequest = (exclude: string[] = []): IHttpRequest => {
+  const httpRequest: IHttpRequest = {
     body: {}
   }
   if (!exclude.includes('name')) httpRequest.body['name'] = 'any_name'
@@ -43,8 +43,8 @@ const makeFakeRequest = (exclude: string[] = []): HttpRequest => {
 
 interface SutTypes {
   sut: SignUpController
-  emailValidatorStub: EmailValidator
-  addAccountStub: AddAccount
+  emailValidatorStub: IEmailValidator
+  addAccountStub: IAddAccount
 }
 
 const makeSut = (): SutTypes => {

@@ -1,6 +1,6 @@
 import { MissingParamError } from '../../errors'
 import { badRequest } from '../../helpers/http-helper'
-import { HttpRequest } from '../../protocols'
+import { IHttpRequest } from '../../protocols'
 import { SignInController } from './signin'
 
 interface SutTypes {
@@ -15,7 +15,7 @@ const makeSut = (): SutTypes => {
 describe('SignIn Controller', () => {
   test('Should return 400 if no email is provided', async () => {
     const { sut } = makeSut()
-    const fakeRequest: HttpRequest = {
+    const fakeRequest: IHttpRequest = {
       body: {
         password: 'any_password'
       }

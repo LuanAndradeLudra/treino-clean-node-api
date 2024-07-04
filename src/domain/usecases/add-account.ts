@@ -1,12 +1,7 @@
-import { AccountModel } from '../models/account'
+import { IAccountModel } from '../models/account'
+import { IAddAccountModel } from '../models/add-account'
 
-export interface AddAccountModel {
-  name: string
-  email: string
-  password: string
-}
-
-export interface AddAccount {
+export interface IAddAccount {
   // eslint-disable-next-line no-unused-vars
-  add(account: AddAccountModel): Promise<AccountModel>
+  add(account: IAddAccountModel): Promise<IAccountModel>
 }

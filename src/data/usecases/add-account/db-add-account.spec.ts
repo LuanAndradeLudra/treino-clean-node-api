@@ -1,21 +1,21 @@
-import { AccountModel, AddAccountModel, Encrypter, AddAccountRepository } from './db-add-account-protocols'
+import { IAccountModel, IAddAccountModel, IEncrypter, IAddAccountRepository } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
 
-const makeFakeAccount = (): AccountModel => ({
+const makeFakeAccount = (): IAccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'hashed_value'
 })
 
-const makeFakeAccountData = (): AddAccountModel => ({
+const makeFakeAccountData = (): IAddAccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
 })
 
-const makeEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
+const makeEncrypter = (): IEncrypter => {
+  class EncrypterStub implements IEncrypter {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     encrypt(value: string): Promise<string> {
       return new Promise((resolve) => resolve('hashed_value'))
@@ -24,10 +24,10 @@ const makeEncrypter = (): Encrypter => {
   return new EncrypterStub()
 }
 
-const makeAddAccountRepository = (): AddAccountRepository => {
-  class AddAccountRepositoryStub implements AddAccountRepository {
+const makeAddAccountRepository = (): IAddAccountRepository => {
+  class AddAccountRepositoryStub implements IAddAccountRepository {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    add(accountData: AddAccountModel): Promise<AccountModel> {
+    add(accountData: IAddAccountModel): Promise<IAccountModel> {
       return new Promise((resolve) => resolve(makeFakeAccount()))
     }
   }
@@ -36,8 +36,8 @@ const makeAddAccountRepository = (): AddAccountRepository => {
 
 interface SutTypes {
   sut: DbAddAccount
-  encrypterStub: Encrypter
-  addAccountRepositoryStub: AddAccountRepository
+  encrypterStub: IEncrypter
+  addAccountRepositoryStub: IAddAccountRepository
 }
 
 const makeSut = (): SutTypes => {
