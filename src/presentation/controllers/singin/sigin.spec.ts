@@ -1,8 +1,6 @@
-import { IAuthenticator } from '../../../domain/usecases/authenticator'
+import { IAuthenticator, IHttpRequest, IEmailValidator } from './signin-protocols'
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
-import { IHttpRequest } from '../../protocols'
-import { IEmailValidator } from '../singup/signup-protocols'
 import { SignInController } from './signin'
 
 interface ISutTypes {
