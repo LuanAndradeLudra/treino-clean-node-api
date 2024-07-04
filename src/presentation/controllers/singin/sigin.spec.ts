@@ -96,6 +96,13 @@ describe('SignIn Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
+  test('Should return 500 if Authenticator throws', async () => {
+    const { sut, autenticatorStub } = makeSut()
+    jest.spyOn(autenticatorStub, 'auth').mockReturnValueOnce(Promise.reject(new Error()))
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
   test('Should return 401 if invalid credentials are provided', async () => {
     const { sut, autenticatorStub } = makeSut()
     jest.spyOn(autenticatorStub, 'auth').mockImplementationOnce(() => Promise.resolve(null))
