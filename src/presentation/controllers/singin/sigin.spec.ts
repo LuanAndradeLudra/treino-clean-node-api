@@ -1,6 +1,6 @@
 import { IAuthenticator, IHttpRequest, IEmailValidator } from './signin-protocols'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helper'
 import { SignInController } from './signin'
 
 interface ISutTypes {
@@ -108,5 +108,11 @@ describe('SignIn Controller', () => {
     jest.spyOn(autenticatorStub, 'auth').mockImplementationOnce(() => Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(unauthorized())
+  })
+
+  test('Should return 200 if valid credentials are provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
   })
 })
