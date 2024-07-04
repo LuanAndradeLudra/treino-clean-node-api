@@ -1,6 +1,6 @@
 import { IAuthenticator } from '../../../domain/usecases/authenticator'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, serverError } from '../../helpers/http-helper'
+import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
 import { IHttpRequest } from '../../protocols'
 import { IEmailValidator } from '../singup/signup-protocols'
 import { SignInController } from './signin'
@@ -96,5 +96,12 @@ describe('SignIn Controller', () => {
     })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return 401 if invalid credentials are provided', async () => {
+    const { sut, autenticatorStub } = makeSut()
+    jest.spyOn(autenticatorStub, 'auth').mockImplementationOnce(() => Promise.resolve(null))
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
