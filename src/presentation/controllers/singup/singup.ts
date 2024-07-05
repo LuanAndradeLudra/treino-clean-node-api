@@ -15,7 +15,8 @@ export class SignUpController implements IController {
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      this.validator.validate(httpRequest.body)
+      const validatorError = this.validator.validate(httpRequest.body)
+      if (validatorError) return badRequest(validatorError)
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
       for (const field of requiredFields) {
         if (!httpRequest.body![field]) {
