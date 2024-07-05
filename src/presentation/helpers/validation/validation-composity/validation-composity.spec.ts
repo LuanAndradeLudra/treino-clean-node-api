@@ -11,7 +11,7 @@ const makeValidation = (): IValidation => {
   class ValidationStub implements IValidation {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     validate(input: object): Error {
-      return new MissingParamError('field')
+      return null
     }
   }
   return new ValidationStub()
@@ -28,7 +28,8 @@ const makeSut = (): ISutTypes => {
 
 describe('Validation Composity', () => {
   test('Should return an error if any validation fails', () => {
-    const { sut } = makeSut()
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('field'))
     const error = sut.validate({ field: 'any_field' })
     expect(error).toEqual(new MissingParamError('field'))
   })
