@@ -1,12 +1,12 @@
-import { CompareFieldsValidator } from '../../../presentation/helpers/validator/compare-field-validator'
-import { EmailValidation } from '../../../presentation/helpers/validator/email-validation/email-validation'
-import { RequiredFieldValidator } from '../../../presentation/helpers/validator/required-field-validator'
-import { IValidator } from '../../../presentation/helpers/validator/validator'
-import { ValidatorComposity } from '../../../presentation/helpers/validator/validator-composity'
+import { CompareFieldsValidation } from '../../../presentation/helpers/validation/compare-field-validation'
+import { EmailValidation } from '../../../presentation/helpers/validation/email-validation/email-validation'
+import { RequiredFieldValidation } from '../../../presentation/helpers/validation/required-field-validation'
+import { IValidation } from '../../../presentation/helpers/validation/validation'
+import { ValidationComposity } from '../../../presentation/helpers/validation/validation-composity'
 import { IEmailValidator } from '../../../presentation/protocols/email-validator'
-import { makeSignUpValidator } from './signup-validator'
+import { makeSignUpValidation } from './signup-validator'
 
-jest.mock('../../../presentation/helpers/validator/validator-composity')
+jest.mock('../../../presentation/helpers/validation/validation-composity')
 
 beforeAll(() => {
   getRequiredFields()
@@ -14,20 +14,20 @@ beforeAll(() => {
   getEmailValidatorFields()
 })
 
-const validators: IValidator[] = []
+const validators: IValidation[] = []
 
 const getEmailValidatorFields = (): void => {
   validators.push(new EmailValidation(makeEmailValidator(), 'email'))
 }
 
 const getCompareFields = (): void => {
-  validators.push(new CompareFieldsValidator('password', 'passwordConfirmation'))
+  validators.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
 }
 
 const getRequiredFields = (): void => {
   const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
   for (const field of requiredFields) {
-    validators.push(new RequiredFieldValidator(field))
+    validators.push(new RequiredFieldValidation(field))
   }
 }
 
@@ -41,10 +41,10 @@ const makeEmailValidator = (): IEmailValidator => {
   return new EmailValidatorStub()
 }
 
-describe('SignUpValidator Factory', () => {
+describe('SignUp Validation Factory', () => {
   test('Should call ValidatorComposite with all validators', () => {
-    makeSignUpValidator()
+    makeSignUpValidation()
 
-    expect(ValidatorComposity).toHaveBeenCalledWith(validators)
+    expect(ValidationComposity).toHaveBeenCalledWith(validators)
   })
 })

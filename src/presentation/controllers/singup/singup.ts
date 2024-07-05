@@ -1,11 +1,11 @@
 import { badRequest, created, serverError } from '../../helpers/http-helper'
-import { IController, IHttpRequest, IHttpResponse, IAddAccount, IValidator } from './signup-protocols'
+import { IController, IHttpRequest, IHttpResponse, IAddAccount, IValidation } from './signup-protocols'
 
 export class SignUpController implements IController {
   private readonly addAccount: IAddAccount
-  private readonly validator: IValidator
+  private readonly validator: IValidation
 
-  constructor(addAccount: IAddAccount, validator: IValidator) {
+  constructor(addAccount: IAddAccount, validator: IValidation) {
     this.addAccount = addAccount
     this.validator = validator
   }

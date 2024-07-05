@@ -1,6 +1,6 @@
 import { SignUpController } from './singup'
 import { MissingParamError } from '../../errors'
-import { IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest, IValidator } from './signup-protocols'
+import { IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest, IValidation } from './signup-protocols'
 import { created, serverError, badRequest } from '../../helpers/http-helper'
 
 const makeFakeRequest = (exclude: string[] = []): IHttpRequest => {
@@ -31,8 +31,8 @@ const makeAddAccount = (): IAddAccount => {
   return new AddAccountStub()
 }
 
-const makeValidator = (): IValidator => {
-  class ValidatorStub implements IValidator {
+const makeValidator = (): IValidation => {
+  class ValidatorStub implements IValidation {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     validate(input: object): Error {
       return null
@@ -44,7 +44,7 @@ const makeValidator = (): IValidator => {
 interface ISutTypes {
   sut: SignUpController
   addAccountStub: IAddAccount
-  validatorStub: IValidator
+  validatorStub: IValidation
 }
 
 const makeSut = (): ISutTypes => {

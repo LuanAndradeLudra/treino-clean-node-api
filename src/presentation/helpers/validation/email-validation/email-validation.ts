@@ -1,8 +1,8 @@
 import { InvalidParamError } from '../../../errors'
 import { IEmailValidator } from '../../../protocols/email-validator'
-import { IValidator } from '../validator'
+import { IValidation } from '../validation'
 
-export class EmailValidation implements IValidator {
+export class EmailValidation implements IValidation {
   private readonly emailValidator: IEmailValidator
   private readonly emailField: string
 
