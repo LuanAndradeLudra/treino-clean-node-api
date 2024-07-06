@@ -1,7 +1,8 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": ["plugin:@typescript-eslint/recommended"],
-  "parserOptions": { "ecmaVersion": 2018, "sourceType": "module" },
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": { "project": "./tsconfig.json" },
   "rules": {
     // Regras gerais de formatação
     "indent": ["warn", 2], // Indentação com 2 espaços
@@ -16,13 +17,17 @@
 
     // Regras de tipagem
     "@typescript-eslint/explicit-module-boundary-types": "off", // Desativar a exigência de tipos explícitos para funções de nível superior
-    "require-await": "error",
+
     // Regras específicas do ESLint e do TypeScript
     "no-unused-vars": "error", // Proibir variáveis não utilizadas
     "no-undef": "error", // Proibir o uso de variáveis não definidas
     "prefer-const": ["error", { "ignoreReadBeforeAssign": true }], // Preferir o uso de const quando possível
     "@typescript-eslint/explicit-function-return-type": "error",
-    "no-return-await": "error"
+    "no-return-await": "error",
+
+    // Regras para Promise
+    "require-await": "error",
+    "@typescript-eslint/no-floating-promises": "error"
   },
   "env": {
     "jest": true,
