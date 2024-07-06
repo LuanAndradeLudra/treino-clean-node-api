@@ -31,7 +31,7 @@ const makeAddAccount = (): IAddAccount => {
   return new AddAccountStub()
 }
 
-const makeValidator = (): IValidation => {
+const makeValidation = (): IValidation => {
   class ValidatorStub implements IValidation {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     validate(input: object): Error {
@@ -49,7 +49,7 @@ interface ISutTypes {
 
 const makeSut = (): ISutTypes => {
   const addAccountStub = makeAddAccount()
-  const validatorStub = makeValidator()
+  const validatorStub = makeValidation()
   const sut = new SignUpController(addAccountStub, validatorStub)
   return {
     sut,
