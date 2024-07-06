@@ -42,7 +42,7 @@ const makeEmailValidator = (): IEmailValidator => {
 }
 
 describe('SignUp Validation Factory', () => {
-  test('Should call ValidatorComposite with all validators', () => {
+  test('Should call ValidationComposite with all validators', () => {
     makeSignUpValidation()
 
     expect(ValidationComposite).toHaveBeenCalledWith(validators)
