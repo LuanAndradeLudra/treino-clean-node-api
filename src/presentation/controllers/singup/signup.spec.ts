@@ -32,43 +32,43 @@ const makeAddAccount = (): IAddAccount => {
 }
 
 const makeValidation = (): IValidation => {
-  class ValidatorStub implements IValidation {
+  class ValidationStub implements IValidation {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     validate(input: object): Error {
       return null
     }
   }
-  return new ValidatorStub()
+  return new ValidationStub()
 }
 
 interface ISutTypes {
   sut: SignUpController
   addAccountStub: IAddAccount
-  validatorStub: IValidation
+  validationStub: IValidation
 }
 
 const makeSut = (): ISutTypes => {
   const addAccountStub = makeAddAccount()
-  const validatorStub = makeValidation()
-  const sut = new SignUpController(addAccountStub, validatorStub)
+  const validationStub = makeValidation()
+  const sut = new SignUpController(addAccountStub, validationStub)
   return {
     sut,
     addAccountStub,
-    validatorStub
+    validationStub
   }
 }
 
 describe('SignUp Controller', () => {
   test('Should return 400 if Validator returns an error', async () => {
-    const { sut, validatorStub } = makeSut()
-    jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
   })
 
   test('Should call Validator with correct values', async () => {
-    const { sut, validatorStub } = makeSut()
-    const validatorSpy = jest.spyOn(validatorStub, 'validate')
+    const { sut, validationStub } = makeSut()
+    const validatorSpy = jest.spyOn(validationStub, 'validate')
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(validatorSpy).toHaveBeenCalledWith(httpRequest.body)
