@@ -1,4 +1,5 @@
 import { IAuthenticationModel } from '../../../domain/models/authentication'
+import { IHashComparer } from '../../protocols/cryptography/comparer'
 import { ILoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
 import { IAccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuthenticator } from './db-authenticator'
@@ -6,12 +7,14 @@ import { DbAuthenticator } from './db-authenticator'
 interface ISutTypes {
   sut: DbAuthenticator
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
+  hashComparerStub: IHashComparer
 }
 
 const makeSut = (): ISutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-  const sut = new DbAuthenticator(loadAccountByEmailRepositoryStub)
-  return { sut, loadAccountByEmailRepositoryStub }
+  const hashComparerStub = makeHashCompare()
+  const sut = new DbAuthenticator(loadAccountByEmailRepositoryStub, hashComparerStub)
+  return { sut, loadAccountByEmailRepositoryStub, hashComparerStub }
 }
 
 const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
@@ -25,6 +28,17 @@ const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   return new LoadAccountByEmailRepositoryStub()
 }
 
+const makeHashCompare = (): IHashComparer => {
+  class HashComparerStub implements IHashComparer {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+    compare(value: string, hash: string): Promise<boolean> {
+      return Promise.resolve(true)
+    }
+  }
+
+  return new HashComparerStub()
+}
+
 const makeFakeAuthRequest = (): IAuthenticationModel => ({
   email: 'any_email@mail.com',
   password: 'any_password'
@@ -34,7 +48,7 @@ const makeFakeAccount = (): IAccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_email@mail.com',
-  password: 'any_password'
+  password: 'hashed_password'
 })
 
 describe('DbAuthenticator UseCase', () => {
@@ -57,5 +71,12 @@ describe('DbAuthenticator UseCase', () => {
     jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(null)
     const account = await sut.auth(makeFakeAuthRequest())
     expect(account).toBeNull()
+  })
+
+  test('Should call HashComparer with correct values', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    const compareSpy = jest.spyOn(hashComparerStub, 'compare')
+    await sut.auth(makeFakeAuthRequest())
+    expect(compareSpy).toHaveBeenCalledWith(makeFakeAuthRequest().password, makeFakeAccount().password)
   })
 })
