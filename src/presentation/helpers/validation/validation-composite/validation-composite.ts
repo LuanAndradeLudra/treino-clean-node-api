@@ -1,6 +1,6 @@
 import { IValidation } from '../validation'
 
-export class ValidationComposity implements IValidation {
+export class ValidationComposite implements IValidation {
   private readonly validators: IValidation[]
 
   constructor(validators: IValidation[]) {

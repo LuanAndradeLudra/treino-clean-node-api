@@ -2,11 +2,11 @@ import { CompareFieldsValidation } from '../../../presentation/helpers/validatio
 import { EmailValidation } from '../../../presentation/helpers/validation/email-validation/email-validation'
 import { RequiredFieldValidation } from '../../../presentation/helpers/validation/required-fields/required-field-validation'
 import { IValidation } from '../../../presentation/helpers/validation/validation'
-import { ValidationComposity } from '../../../presentation/helpers/validation/validation-composity/validation-composity'
+import { ValidationComposite } from '../../../presentation/helpers/validation/validation-composite/validation-composite'
 import { IEmailValidator } from '../../../presentation/protocols/email-validator'
 import { makeSignUpValidation } from './signup-validation'
 
-jest.mock('../../../presentation/helpers/validation/validation-composity/validation-composity')
+jest.mock('../../../presentation/helpers/validation/validation-composite/validation-composite')
 
 beforeAll(() => {
   getRequiredFields()
@@ -45,6 +45,6 @@ describe('SignUp Validation Factory', () => {
   test('Should call ValidatorComposite with all validators', () => {
     makeSignUpValidation()
 
-    expect(ValidationComposity).toHaveBeenCalledWith(validators)
+    expect(ValidationComposite).toHaveBeenCalledWith(validators)
   })
 })
