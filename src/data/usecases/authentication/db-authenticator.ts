@@ -11,6 +11,6 @@ export class DbAuthenticator implements IAuthenticator {
 
   async auth(authentication: IAuthenticationModel): Promise<string> {
     await this.loadAccountByEmailRepository.load(authentication.email)
-    return Promise.resolve(null)
+    return null
   }
 }
