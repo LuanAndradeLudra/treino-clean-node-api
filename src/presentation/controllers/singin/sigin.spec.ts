@@ -2,6 +2,7 @@ import { IAuthenticator, IHttpRequest, IValidation } from './signin-protocols'
 import { InvalidParamError } from '../../errors'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
 import { SignInController } from './signin'
+import { IAuthenticationModel } from '../../../domain/models/authentication'
 
 interface ISutTypes {
   sut: SignInController
@@ -22,7 +23,7 @@ const makeValidation = (): IValidation => {
 const makeAuthenticator = (): IAuthenticator => {
   class AuthenticatorStub implements IAuthenticator {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    auth(email: string, password: string): Promise<string> {
+    auth(authentication: IAuthenticationModel): Promise<string> {
       return Promise.resolve('any_token')
     }
   }
@@ -43,6 +44,11 @@ const makeFakeRequest = (): IHttpRequest => ({
   }
 })
 
+const makeFakeAuthenticationAccount = (): IAuthenticationModel => ({
+  email: 'any_email@mail.com',
+  password: 'any_password'
+})
+
 describe('SignIn Controller', () => {
   test('Should return 400 if Validation returns an errro', async () => {
     const { sut, validationStub } = makeSut()
@@ -55,7 +61,7 @@ describe('SignIn Controller', () => {
     const { sut, authenticator } = makeSut()
     const authSpy = jest.spyOn(authenticator, 'auth')
     await sut.handle(makeFakeRequest())
-    expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password')
+    expect(authSpy).toHaveBeenCalledWith(makeFakeAuthenticationAccount())
   })
 
   test('Should call Validation with correct values', async () => {
