@@ -14,20 +14,20 @@ beforeAll(() => {
   getEmailValidatorFields()
 })
 
-const validators: IValidation[] = []
+const validations: IValidation[] = []
 
 const getEmailValidatorFields = (): void => {
-  validators.push(new EmailValidation(makeEmailValidator(), 'email'))
+  validations.push(new EmailValidation(makeEmailValidator(), 'email'))
 }
 
 const getCompareFields = (): void => {
-  validators.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
+  validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
 }
 
 const getRequiredFields = (): void => {
   const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
   for (const field of requiredFields) {
-    validators.push(new RequiredFieldValidation(field))
+    validations.push(new RequiredFieldValidation(field))
   }
 }
 
@@ -45,6 +45,6 @@ describe('SignUp Validation Factory', () => {
   test('Should call ValidationComposite with all validators', () => {
     makeSignUpValidation()
 
-    expect(ValidationComposite).toHaveBeenCalledWith(validators)
+    expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })
