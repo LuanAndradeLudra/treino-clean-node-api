@@ -1,11 +1,11 @@
-import { EmailValidation } from '../../../presentation/helpers/validation/email-validation/email-validation'
-import { RequiredFieldValidation } from '../../../presentation/helpers/validation/required-fields/required-field-validation'
-import { IValidation } from '../../../presentation/helpers/validation/validation'
-import { ValidationComposite } from '../../../presentation/helpers/validation/validation-composite/validation-composite'
-import { IEmailValidator } from '../../../presentation/protocols/email-validator'
+import { EmailValidation } from '../../../../presentation/helpers/validation/email-validation/email-validation'
+import { RequiredFieldValidation } from '../../../../presentation/helpers/validation/required-fields/required-field-validation'
+import { IValidation } from '../../../../presentation/helpers/validation/validation'
+import { ValidationComposite } from '../../../../presentation/helpers/validation/validation-composite/validation-composite'
+import { IEmailValidator } from '../../../../presentation/protocols/email-validator'
 import { makeSignInValidation } from './signin-validation'
 
-jest.mock('../../../presentation/helpers/validation/validation-composite/validation-composite')
+jest.mock('../../../../presentation/helpers/validation/validation-composite/validation-composite')
 
 beforeAll(() => {
   getRequiredFields()
