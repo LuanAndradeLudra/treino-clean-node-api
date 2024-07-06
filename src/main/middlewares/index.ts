@@ -1,3 +1,3 @@
-export * from '../middlewares/body-parser'
-export * from '../middlewares/cors'
-export * from '../middlewares/content-type'
+export * from './body-parser/body-parser'
+export * from './cors/cors'
+export * from './content-type/content-type'
