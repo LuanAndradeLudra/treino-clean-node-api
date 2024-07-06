@@ -2,6 +2,7 @@ import { IAuthenticationModel } from '../../../domain/models/authentication'
 import { IHashComparer } from '../../protocols/cryptography/comparer'
 import { ITokenGenerator } from '../../protocols/cryptography/token-generator'
 import { ILoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
+import { IUpdateAccessTokenRepository } from '../../protocols/db/update-access-token-repository'
 import { IAccountModel } from '../add-account/db-add-account-protocols'
 import { DbAuthenticator } from './db-authenticator'
 
@@ -10,14 +11,27 @@ interface ISutTypes {
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
   hashComparerStub: IHashComparer
   tokenGeneratorStub: ITokenGenerator
+  updateAccessTokenRepositoryStub: IUpdateAccessTokenRepository
 }
 
 const makeSut = (): ISutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const hashComparerStub = makeHashCompare()
   const tokenGeneratorStub = makeTokenGenerator()
-  const sut = new DbAuthenticator(loadAccountByEmailRepositoryStub, hashComparerStub, tokenGeneratorStub)
-  return { sut, loadAccountByEmailRepositoryStub, hashComparerStub, tokenGeneratorStub }
+  const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
+  const sut = new DbAuthenticator(
+    loadAccountByEmailRepositoryStub,
+    hashComparerStub,
+    tokenGeneratorStub,
+    updateAccessTokenRepositoryStub
+  )
+  return {
+    sut,
+    loadAccountByEmailRepositoryStub,
+    hashComparerStub,
+    tokenGeneratorStub,
+    updateAccessTokenRepositoryStub
+  }
 }
 
 const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
@@ -51,6 +65,17 @@ const makeTokenGenerator = (): ITokenGenerator => {
   }
 
   return new TokenGeneratorStub()
+}
+
+const makeUpdateAccessTokenRepository = (): IUpdateAccessTokenRepository => {
+  class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    update(id: string, token: string): Promise<void> {
+      return Promise.resolve()
+    }
+  }
+
+  return new UpdateAccessTokenRepositoryStub()
 }
 
 const makeFakeAuthRequest = (): IAuthenticationModel => ({
@@ -126,5 +151,12 @@ describe('DbAuthenticator UseCase', () => {
     const { sut } = makeSut()
     const accessToken = await sut.auth(makeFakeAuthRequest())
     expect(accessToken).toBe('any_token')
+  })
+
+  test('Should call UpdateAccessTokenRepository with correct values', async () => {
+    const { sut, updateAccessTokenRepositoryStub } = makeSut()
+    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update')
+    await sut.auth(makeFakeAuthRequest())
+    expect(updateSpy).toHaveBeenCalledWith(makeFakeAccount().id, 'any_token')
   })
 })
