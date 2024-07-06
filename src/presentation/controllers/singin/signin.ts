@@ -15,10 +15,6 @@ export class SignInController implements IController {
       const validationError = this.validation.validate(httpRequest.body)
       if (validationError) return badRequest(validationError)
 
-      // const isValid = this.emailValidator.isValid(httpRequest.body['email'])
-
-      // if (!isValid) return badRequest(new InvalidParamError('email'))
-
       const accessToken = await this.authenticator.auth(httpRequest.body['email'], httpRequest.body['password'])
 
       if (!accessToken) return unauthorized()
