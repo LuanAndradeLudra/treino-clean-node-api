@@ -1,7 +1,7 @@
 import { SignUpController } from './singup'
 import { MissingParamError } from '../../errors'
 import { IAddAccount, IAddAccountModel, IAccountModel, IHttpRequest, IValidation } from './signup-protocols'
-import { created, serverError, badRequest } from '../../helpers/http-helper'
+import { created, serverError, badRequest } from '../../helpers/http/http-helper'
 
 const makeFakeRequest = (exclude: string[] = []): IHttpRequest => {
   const httpRequest: IHttpRequest = {
