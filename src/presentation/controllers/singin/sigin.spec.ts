@@ -5,7 +5,7 @@ import { SignInController } from './signin'
 
 interface ISutTypes {
   sut: SignInController
-  autenticatorStub: IAuthenticator
+  authenticator: IAuthenticator
   validationStub: IValidation
 }
 
@@ -30,10 +30,10 @@ const makeAuthenticator = (): IAuthenticator => {
 }
 
 const makeSut = (): ISutTypes => {
-  const autenticatorStub = makeAuthenticator()
+  const authenticator = makeAuthenticator()
   const validationStub = makeValidation()
-  const sut = new SignInController(autenticatorStub, validationStub)
-  return { sut, autenticatorStub, validationStub }
+  const sut = new SignInController(authenticator, validationStub)
+  return { sut, authenticator, validationStub }
 }
 
 const makeFakeRequest = (): IHttpRequest => ({
@@ -52,8 +52,8 @@ describe('SignIn Controller', () => {
   })
 
   test('Should call Authenticator with correct values', async () => {
-    const { sut, autenticatorStub } = makeSut()
-    const authSpy = jest.spyOn(autenticatorStub, 'auth')
+    const { sut, authenticator } = makeSut()
+    const authSpy = jest.spyOn(authenticator, 'auth')
     await sut.handle(makeFakeRequest())
     expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password')
   })
@@ -67,15 +67,15 @@ describe('SignIn Controller', () => {
   })
 
   test('Should return 500 if Authenticator throws', async () => {
-    const { sut, autenticatorStub } = makeSut()
-    jest.spyOn(autenticatorStub, 'auth').mockReturnValueOnce(Promise.reject(new Error()))
+    const { sut, authenticator } = makeSut()
+    jest.spyOn(authenticator, 'auth').mockReturnValueOnce(Promise.reject(new Error()))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should return 401 if invalid credentials are provided', async () => {
-    const { sut, autenticatorStub } = makeSut()
-    jest.spyOn(autenticatorStub, 'auth').mockImplementationOnce(() => Promise.resolve(null))
+    const { sut, authenticator } = makeSut()
+    jest.spyOn(authenticator, 'auth').mockImplementationOnce(() => Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(unauthorized())
   })
