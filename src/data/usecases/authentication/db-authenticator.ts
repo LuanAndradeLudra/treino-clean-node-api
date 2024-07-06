@@ -16,7 +16,8 @@ export class DbAuthenticator implements IAuthenticator {
     const account = await this.loadAccountByEmailRepository.load(authentication.email)
     if (!account) return null
 
-    await this.hashCompare.compare(authentication.password, account.password)
+    const compare = await this.hashCompare.compare(authentication.password, account.password)
+    if (!compare) return null
 
     return ''
   }
