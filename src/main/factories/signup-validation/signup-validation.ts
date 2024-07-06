@@ -6,16 +6,16 @@ import { ValidationComposite } from '../../../presentation/helpers/validation/va
 import { EmailValidatorAdapter } from '../../../utils/email-validator-adaptor'
 
 export const makeSignUpValidation = (): ValidationComposite => {
-  const validators: IValidation[] = []
+  const validation: IValidation[] = []
 
   const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
   for (const field of requiredFields) {
-    validators.push(new RequiredFieldValidation(field))
+    validation.push(new RequiredFieldValidation(field))
   }
 
-  validators.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
+  validation.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
 
-  validators.push(new EmailValidation(new EmailValidatorAdapter(), 'email'))
+  validation.push(new EmailValidation(new EmailValidatorAdapter(), 'email'))
 
-  return new ValidationComposite(validators)
+  return new ValidationComposite(validation)
 }
