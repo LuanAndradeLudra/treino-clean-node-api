@@ -1,9 +1,11 @@
-import { IAuthenticationModel } from '../../../domain/models/authentication'
-import { IHashComparer } from '../../protocols/cryptography/comparer'
-import { ITokenGenerator } from '../../protocols/cryptography/token-generator'
-import { ILoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
-import { IUpdateAccessTokenRepository } from '../../protocols/db/update-access-token-repository'
-import { IAccountModel } from '../add-account/db-add-account-protocols'
+import {
+  IAuthenticationModel,
+  IHashComparer,
+  ITokenGenerator,
+  ILoadAccountByEmailRepository,
+  IUpdateAccessTokenRepository,
+  IAccountModel
+} from './db-authenticator-protocols'
 import { DbAuthenticator } from './db-authenticator'
 
 interface ISutTypes {
