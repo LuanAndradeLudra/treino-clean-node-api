@@ -10,7 +10,8 @@ export class DbAuthenticator implements IAuthenticator {
   }
 
   async auth(authentication: IAuthenticationModel): Promise<string> {
-    await this.loadAccountByEmailRepository.load(authentication.email)
-    return null
+    const account = await this.loadAccountByEmailRepository.load(authentication.email)
+    if (!account) return null
+    return ''
   }
 }
