@@ -19,16 +19,25 @@ const makeSut = (): ISutTypes => {
 }
 
 describe('Jwt Adapter', () => {
-  test('Should call JsonWebToken Sign with correct values', async () => {
+  test('Should call JsonWebToken Sign with correct values', () => {
     const { sut } = makeSut()
     const signSpy = jest.spyOn(jwt, 'sign')
-    await sut.encrypt('field', 'any_value')
+    sut.encrypt('field', 'any_value')
     expect(signSpy).toHaveBeenCalledWith({ field: 'any_value' }, secret)
   })
 
-  test('Should return a token on JsonWebToken Sign success', async () => {
+  test('Should return a token on JsonWebToken Sign success', () => {
     const { sut } = makeSut()
-    const token = await sut.encrypt('field', 'any_value')
+    const token = sut.encrypt('field', 'any_value')
     expect(token).toBe('any_token')
+  })
+
+  test('Should throw if JsonWebToken Sign throws', () => {
+    const { sut } = makeSut()
+    jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    expect(sut.encrypt).toThrow()
   })
 })

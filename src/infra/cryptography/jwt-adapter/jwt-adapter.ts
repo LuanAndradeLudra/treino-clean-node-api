@@ -8,8 +8,8 @@ export class JwtAdapter implements IEncrypter {
     this.secret = secret
   }
 
-  encrypt(field: string, value: string): Promise<string> {
+  encrypt(field: string, value: string): string {
     const token = jwt.sign({ [field]: value }, this.secret)
-    return Promise.resolve(token)
+    return token
   }
 }

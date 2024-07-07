@@ -61,8 +61,8 @@ const makeHashCompare = (): IHashComparer => {
 const makeEncrypter = (): IEncrypter => {
   class EncrypterStub implements IEncrypter {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    encrypt(id: string): Promise<string> {
-      return Promise.resolve('any_token')
+    encrypt(id: string): string {
+      return 'any_token'
     }
   }
 
@@ -144,7 +144,9 @@ describe('DbAuthenticator UseCase', () => {
 
   test('Should throws if Encrypter throws', async () => {
     const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => Promise.reject(new Error()))
+    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => {
+      throw new Error()
+    })
     const promise = sut.auth(makeFakeAuthRequest())
     await expect(promise).rejects.toThrow()
   })
