@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 export * from '../../../domain/models/authentication'
 export * from '../../protocols/cryptography/comparer'
 export * from '../../protocols/cryptography/encrypter'
