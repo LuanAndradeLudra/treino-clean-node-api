@@ -72,7 +72,7 @@ const makeEncrypter = (): IEncrypter => {
 const makeUpdateAccessTokenRepository = (): IUpdateAccessTokenRepository => {
   class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    update(id: string, token: string): Promise<void> {
+    updateAccessToken(id: string, token: string): Promise<void> {
       return Promise.resolve()
     }
   }
@@ -159,14 +159,16 @@ describe('DbAuthenticator UseCase', () => {
 
   test('Should call UpdateAccessTokenRepository with correct values', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
-    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update')
+    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
     await sut.auth(makeFakeAuthRequest())
     expect(updateSpy).toHaveBeenCalledWith(makeFakeAccount().id, 'any_token')
   })
 
   test('Should throws if UpdateAccessTokenRepository throws', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
-    jest.spyOn(updateAccessTokenRepositoryStub, 'update').mockImplementationOnce(() => Promise.reject(new Error()))
+    jest
+      .spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
+      .mockImplementationOnce(() => Promise.reject(new Error()))
     const promise = sut.auth(makeFakeAuthRequest())
     await expect(promise).rejects.toThrow()
   })

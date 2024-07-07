@@ -34,7 +34,7 @@ export class DbAuthenticator implements IAuthenticator {
 
     const accessToken = await this.encrypter.encrypt('id', account.id)
 
-    await this.updateAccessTokenRepository.update(account.id, accessToken)
+    await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
 
     return accessToken
   }
