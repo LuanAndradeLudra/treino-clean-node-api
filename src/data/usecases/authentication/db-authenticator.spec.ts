@@ -1,7 +1,7 @@
 import {
   IAuthenticationModel,
   IHashComparer,
-  ITokenGenerator,
+  IEncrypter,
   ILoadAccountByEmailRepository,
   IUpdateAccessTokenRepository,
   IAccountModel
@@ -12,26 +12,26 @@ interface ISutTypes {
   sut: DbAuthenticator
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
   hashComparerStub: IHashComparer
-  tokenGeneratorStub: ITokenGenerator
+  encrypterStub: IEncrypter
   updateAccessTokenRepositoryStub: IUpdateAccessTokenRepository
 }
 
 const makeSut = (): ISutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const hashComparerStub = makeHashCompare()
-  const tokenGeneratorStub = makeTokenGenerator()
+  const encrypterStub = makeEncrypter()
   const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
   const sut = new DbAuthenticator(
     loadAccountByEmailRepositoryStub,
     hashComparerStub,
-    tokenGeneratorStub,
+    encrypterStub,
     updateAccessTokenRepositoryStub
   )
   return {
     sut,
     loadAccountByEmailRepositoryStub,
     hashComparerStub,
-    tokenGeneratorStub,
+    encrypterStub,
     updateAccessTokenRepositoryStub
   }
 }
@@ -58,15 +58,15 @@ const makeHashCompare = (): IHashComparer => {
   return new HashComparerStub()
 }
 
-const makeTokenGenerator = (): ITokenGenerator => {
-  class TokenGeneratorStub implements ITokenGenerator {
+const makeEncrypter = (): IEncrypter => {
+  class EncrypterStub implements IEncrypter {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    generate(id: string): Promise<string> {
+    encrypt(id: string): Promise<string> {
       return Promise.resolve('any_token')
     }
   }
 
-  return new TokenGeneratorStub()
+  return new EncrypterStub()
 }
 
 const makeUpdateAccessTokenRepository = (): IUpdateAccessTokenRepository => {
@@ -135,16 +135,16 @@ describe('DbAuthenticator UseCase', () => {
     expect(account).toBeNull()
   })
 
-  test('Should call TokenGenerator with correct id', async () => {
-    const { sut, tokenGeneratorStub } = makeSut()
-    const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
+  test('Should call Encrypter with correct id', async () => {
+    const { sut, encrypterStub } = makeSut()
+    const generateSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.auth(makeFakeAuthRequest())
     expect(generateSpy).toHaveBeenCalledWith(makeFakeAccount().id)
   })
 
-  test('Should throws if TokenGenerator throws', async () => {
-    const { sut, tokenGeneratorStub } = makeSut()
-    jest.spyOn(tokenGeneratorStub, 'generate').mockImplementationOnce(() => Promise.reject(new Error()))
+  test('Should throws if Encrypter throws', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(() => Promise.reject(new Error()))
     const promise = sut.auth(makeFakeAuthRequest())
     await expect(promise).rejects.toThrow()
   })
