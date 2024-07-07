@@ -39,7 +39,7 @@ const makeSut = (): ISutTypes => {
 const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    load(email: string): Promise<IAccountModel> {
+    loadByEmail(email: string): Promise<IAccountModel> {
       return Promise.resolve(makeFakeAccount())
     }
   }
@@ -95,21 +95,23 @@ const makeFakeAccount = (): IAccountModel => ({
 describe('DbAuthenticator UseCase', () => {
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
+    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
     await sut.auth(makeFakeAuthRequest())
     expect(loadSpy).toHaveBeenCalledWith(makeFakeAuthRequest().email)
   })
 
   test('Should throw if LoadAccountByEmailRepository throws', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockImplementationOnce(() => Promise.reject(new Error()))
+    jest
+      .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+      .mockImplementationOnce(() => Promise.reject(new Error()))
     const promise = sut.auth(makeFakeAuthRequest())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return null if LoadAccountByEmailRepository returns null', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(null)
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(null)
     const account = await sut.auth(makeFakeAuthRequest())
     expect(account).toBeNull()
   })
