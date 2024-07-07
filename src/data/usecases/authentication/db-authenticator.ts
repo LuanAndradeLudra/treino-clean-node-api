@@ -32,7 +32,7 @@ export class DbAuthenticator implements IAuthenticator {
     const compare = await this.hashCompare.compare(authentication.password, account.password)
     if (!compare) return null
 
-    const accessToken = await this.encrypter.encrypt(account.id)
+    const accessToken = await this.encrypter.encrypt('id', account.id)
 
     await this.updateAccessTokenRepository.update(account.id, accessToken)
 

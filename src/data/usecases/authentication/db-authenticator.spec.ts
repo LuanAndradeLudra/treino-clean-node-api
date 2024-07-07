@@ -139,7 +139,7 @@ describe('DbAuthenticator UseCase', () => {
     const { sut, encrypterStub } = makeSut()
     const generateSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.auth(makeFakeAuthRequest())
-    expect(generateSpy).toHaveBeenCalledWith(makeFakeAccount().id)
+    expect(generateSpy).toHaveBeenCalledWith('id', makeFakeAccount().id)
   })
 
   test('Should throws if Encrypter throws', async () => {
