@@ -2,13 +2,12 @@ import { badRequest, created, serverError } from '../../helpers/http/http-helper
 import { IController, IHttpRequest, IHttpResponse, IAddAccount, IValidation } from './signup-controller-protocols'
 
 export class SignUpController implements IController {
-  private readonly addAccount: IAddAccount
-  private readonly validation: IValidation
-
-  constructor(addAccount: IAddAccount, validation: IValidation) {
-    this.addAccount = addAccount
-    this.validation = validation
-  }
+  constructor(
+    // eslint-disable-next-line no-unused-vars
+    private readonly addAccount: IAddAccount,
+    // eslint-disable-next-line no-unused-vars
+    private readonly validation: IValidation
+  ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {

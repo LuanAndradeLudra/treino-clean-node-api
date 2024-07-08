@@ -7,12 +7,12 @@ import {
 } from './db-add-account-protocols'
 
 export class DbAddAccount implements IAddAccount {
-  private readonly hasher: Ihasher
-  private readonly addAccountRepository: IAddAccountRepository
-  constructor(hasher: Ihasher, addAccountRepository: IAddAccountRepository) {
-    this.hasher = hasher
-    this.addAccountRepository = addAccountRepository
-  }
+  constructor(
+    // eslint-disable-next-line no-unused-vars
+    private readonly hasher: Ihasher,
+    // eslint-disable-next-line no-unused-vars
+    private readonly addAccountRepository: IAddAccountRepository
+  ) {}
 
   async add(accountData: IAddAccountModel): Promise<IAccountModel> {
     const hashedPassword = await this.hasher.hash(accountData.password)

@@ -1,11 +1,10 @@
 import { IValidation } from '../../../protocols/validation'
 
 export class ValidationComposite implements IValidation {
-  private readonly validators: IValidation[]
-
-  constructor(validators: IValidation[]) {
-    this.validators = validators
-  }
+  constructor(
+    // eslint-disable-next-line no-unused-vars
+    private readonly validators: IValidation[]
+  ) {}
 
   validate(input: object): Error {
     for (const validator of this.validators) {

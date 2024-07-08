@@ -8,22 +8,16 @@ import {
 } from './db-authenticator-protocols'
 
 export class DbAuthenticator implements IAuthenticator {
-  private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository
-  private readonly hashCompare: IHashComparer
-  private readonly encrypter: IEncrypter
-  private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
-
   constructor(
-    loadAccountByEmailRepository: ILoadAccountByEmailRepository,
-    hashCompare: IHashComparer,
-    encrypter: IEncrypter,
-    updateAccessTokenRepository: IUpdateAccessTokenRepository
-  ) {
-    this.loadAccountByEmailRepository = loadAccountByEmailRepository
-    this.hashCompare = hashCompare
-    this.encrypter = encrypter
-    this.updateAccessTokenRepository = updateAccessTokenRepository
-  }
+    // eslint-disable-next-line no-unused-vars
+    private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository,
+    // eslint-disable-next-line no-unused-vars
+    private readonly hashCompare: IHashComparer,
+    // eslint-disable-next-line no-unused-vars
+    private readonly encrypter: IEncrypter,
+    // eslint-disable-next-line no-unused-vars
+    private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
+  ) {}
 
   async auth(authentication: IAuthenticationModel): Promise<string> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(authentication.email)
@@ -32,7 +26,7 @@ export class DbAuthenticator implements IAuthenticator {
     const compare = await this.hashCompare.compare(authentication.password, account.password)
     if (!compare) return null
 
-    const accessToken = await this.encrypter.encrypt('id', account.id)
+    const accessToken = this.encrypter.encrypt('id', account.id)
 
     await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
 

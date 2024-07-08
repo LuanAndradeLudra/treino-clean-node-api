@@ -2,13 +2,12 @@ import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repos
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols'
 
 export class LogControllerDecorator implements IController {
-  private readonly controller: IController
-  private readonly logErrorRepositoryStub: ILogErrorRepository
-
-  constructor(controller: IController, logErrorRepositoryStub: ILogErrorRepository) {
-    this.controller = controller
-    this.logErrorRepositoryStub = logErrorRepositoryStub
-  }
+  constructor(
+    // eslint-disable-next-line no-unused-vars
+    private readonly controller: IController,
+    // eslint-disable-next-line no-unused-vars
+    private readonly logErrorRepositoryStub: ILogErrorRepository
+  ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const httpResponse: IHttpResponse = await this.controller.handle(httpRequest)

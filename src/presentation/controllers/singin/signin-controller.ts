@@ -3,13 +3,12 @@ import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/ht
 import { IAuthenticationModel } from '../../../domain/models/authentication'
 
 export class SignInController implements IController {
-  private readonly authenticator: IAuthenticator
-  private readonly validation: IValidation
-
-  constructor(authenticator: IAuthenticator, validation: IValidation) {
-    this.authenticator = authenticator
-    this.validation = validation
-  }
+  constructor(
+    // eslint-disable-next-line no-unused-vars
+    private readonly authenticator: IAuthenticator,
+    // eslint-disable-next-line no-unused-vars
+    private readonly validation: IValidation
+  ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
