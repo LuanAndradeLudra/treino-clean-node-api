@@ -1,7 +1,7 @@
-import { IAuthenticator, IHttpRequest, IValidation } from './signin-protocols'
+import { IAuthenticator, IHttpRequest, IValidation } from './signin-controller-protocols'
 import { InvalidParamError } from '../../errors'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
-import { SignInController } from './signin'
+import { SignInController } from './signin-controller'
 import { IAuthenticationModel } from '../../../domain/models/authentication'
 
 interface ISutTypes {

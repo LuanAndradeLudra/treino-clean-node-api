@@ -1,8 +1,8 @@
-import { ILogErrorRepository } from '../../data/protocols/db/log-error-repository'
+import { ILogErrorRepository } from '../../data/protocols/db/log/log-error-repository'
 import { IAccountModel } from '../../domain/models/account'
 import { created, serverError } from '../../presentation/helpers/http/http-helper'
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols'
-import { LogControllerDecorator } from './log'
+import { LogControllerDecorator } from './log-controller-decorator'
 
 const makeLogErrorRepository = (): ILogErrorRepository => {
   class LogErrorRepositoryStub implements ILogErrorRepository {

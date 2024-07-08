@@ -1,4 +1,4 @@
-import { IAuthenticator, IController, IHttpRequest, IHttpResponse, IValidation } from './signin-protocols'
+import { IAuthenticator, IController, IHttpRequest, IHttpResponse, IValidation } from './signin-controller-protocols'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
 import { IAuthenticationModel } from '../../../domain/models/authentication'
 

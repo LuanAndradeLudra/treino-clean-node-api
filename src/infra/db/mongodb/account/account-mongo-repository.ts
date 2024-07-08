@@ -1,12 +1,14 @@
+/* eslint-disable indent */
 import { ObjectId } from 'mongodb'
-import { IAddAccountRepository } from '../../../../data/protocols/db/add-account-repository'
-import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/load-account-by-email-repository'
-import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/update-access-token-repository'
+import { IAddAccountRepository } from '../../../../data/protocols/db/account/add-account-repository'
+import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/account/load-account-by-email-repository'
+import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/account/update-access-token-repository'
 import { IAccountModel } from '../../../../domain/models/account'
 import { IAddAccountModel } from '../../../../domain/models/add-account'
 import { MongoHelper } from '../helpers/mongo-helper'
 
-export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountByEmailRepository, IUpdateAccessTokenRepository
+export class AccountMongoRepository
+  implements IAddAccountRepository, ILoadAccountByEmailRepository, IUpdateAccessTokenRepository
 {
   async add(accountData: IAddAccountModel): Promise<IAccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
