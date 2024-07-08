@@ -49,5 +49,15 @@ describe('Auth Routes', () => {
         })
         .expect(200)
     })
+
+    test('Should return 401 if signin fails', async () => {
+      await request(app)
+        .post('/api/signin')
+        .send({
+          email: 'luanandradeti10@gmail.com',
+          password: '12345678'
+        })
+        .expect(401)
+    })
   })
 })
