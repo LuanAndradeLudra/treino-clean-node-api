@@ -107,11 +107,25 @@ describe('SignUp Controller', () => {
     expect(addSpy).toHaveBeenCalledWith(makeFakeRequest(['passwordConfirmation']).body)
   })
 
-  test('Should return 500 if addAccount throws', async () => {
+  test('Should return 500 if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should call Authenticator with correct values', async () => {
+    const { sut, authenticatorStub } = makeSut()
+    const authSpy = jest.spyOn(authenticatorStub, 'auth')
+    await sut.handle(makeFakeRequest())
+    expect(authSpy).toHaveBeenCalledWith(makeFakeAuthenticationAccount())
+  })
+
+  test('Should return 500 if Authenticator throws', async () => {
+    const { sut, authenticatorStub } = makeSut()
+    jest.spyOn(authenticatorStub, 'auth').mockReturnValueOnce(Promise.reject(new Error()))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
@@ -121,12 +135,5 @@ describe('SignUp Controller', () => {
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(created(makeFakeAccount()))
-  })
-
-  test('Should call Authenticator with correct values', async () => {
-    const { sut, authenticatorStub } = makeSut()
-    const authSpy = jest.spyOn(authenticatorStub, 'auth')
-    await sut.handle(makeFakeRequest())
-    expect(authSpy).toHaveBeenCalledWith(makeFakeAuthenticationAccount())
   })
 })
