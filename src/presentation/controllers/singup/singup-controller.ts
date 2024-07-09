@@ -1,4 +1,5 @@
-import { badRequest, created, serverError } from '../../helpers/http/http-helper'
+import { DuplicatedEntry } from '../../errors'
+import { badRequest, created, forbidden, serverError } from '../../helpers/http/http-helper'
 import {
   IController,
   IHttpRequest,
@@ -23,11 +24,13 @@ export class SignUpController implements IController {
       const validationError = this.validation.validate(httpRequest.body)
       if (validationError) return badRequest(validationError)
 
-      await this.addAccount.add({
+      const account = await this.addAccount.add({
         name: httpRequest.body!['name'],
         email: httpRequest.body!['email'],
         password: httpRequest.body!['password']
       })
+
+      if (!account) return forbidden(new DuplicatedEntry('email'))
 
       const accessToken = await this.authenticator.auth({
         email: httpRequest.body!['email'],
