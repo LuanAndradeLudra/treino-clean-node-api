@@ -1,5 +1,5 @@
 import { SignUpController } from './singup-controller'
-import { DuplicatedEntry, MissingParamError } from '../../errors'
+import { DuplicatedEntry, MissingParamError, ServerError } from '../../errors'
 import {
   IAddAccount,
   IAddAccountModel,
@@ -110,7 +110,7 @@ describe('SignUp Controller', () => {
   test('Should return 500 if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
-      return new Promise((resolve, reject) => reject(new Error()))
+      return new Promise((resolve, reject) => reject(new ServerError(null)))
     })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
@@ -125,7 +125,7 @@ describe('SignUp Controller', () => {
 
   test('Should return 500 if Authenticator throws', async () => {
     const { sut, authenticatorStub } = makeSut()
-    jest.spyOn(authenticatorStub, 'auth').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(authenticatorStub, 'auth').mockReturnValueOnce(Promise.reject(new ServerError(null)))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
