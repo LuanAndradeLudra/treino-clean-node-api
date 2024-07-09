@@ -3,12 +3,12 @@ import {
   EmailValidation,
   RequiredFieldValidation,
   ValidationComposite
-} from '../../../../presentation/helpers/validation'
-import { IValidation } from '../../../../presentation/protocols/validation'
-import { IEmailValidator } from '../../../../presentation/protocols/email-validator'
+} from '../../../../../presentation/helpers/validation'
+import { IValidation } from '../../../../../presentation/protocols/validation'
+import { IEmailValidator } from '../../../../../presentation/protocols/email-validator'
 import { makeSignUpValidation } from './signup-validation-factory'
 
-jest.mock('../../../../presentation/helpers/validation/validation-composite/validation-composite')
+jest.mock('../../../../../presentation/helpers/validation/validation-composite/validation-composite')
 
 beforeAll(() => {
   getRequiredFields()
