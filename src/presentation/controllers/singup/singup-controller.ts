@@ -23,18 +23,18 @@ export class SignUpController implements IController {
       const validationError = this.validation.validate(httpRequest.body)
       if (validationError) return badRequest(validationError)
 
-      const account = await this.addAccount.add({
+      await this.addAccount.add({
         name: httpRequest.body!['name'],
         email: httpRequest.body!['email'],
         password: httpRequest.body!['password']
       })
 
-      await this.authenticator.auth({
+      const accessToken = await this.authenticator.auth({
         email: httpRequest.body!['email'],
         password: httpRequest.body!['password']
       })
 
-      return created(account)
+      return created({ accessToken })
     } catch (error) {
       return serverError(error)
     }
