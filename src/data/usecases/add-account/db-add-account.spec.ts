@@ -44,7 +44,7 @@ const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     loadByEmail(email: string): Promise<IAccountModel> {
-      return Promise.resolve(makeFakeAccount())
+      return Promise.resolve(null)
     }
   }
 
@@ -111,7 +111,14 @@ describe('DbAddAccount UseCase', () => {
     expect(loadSpy).toHaveBeenCalledWith(makeFakeAccountData().email)
   })
 
-  test('Should return an account on success ', async () => {
+  test('Should return null if loadAccountByEmailRepository not returns null', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(Promise.resolve(makeFakeAccount()))
+    const account = await sut.add(makeFakeAccountData())
+    expect(account).toBeNull()
+  })
+
+  test('Should return an account on success', async () => {
     const { sut } = makeSut()
     const account = await sut.add(makeFakeAccountData())
     expect(account).toEqual(makeFakeAccount())
