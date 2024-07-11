@@ -2,7 +2,7 @@
   "parser": "@typescript-eslint/parser",
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "plugins": ["@typescript-eslint"],
-  "parserOptions": { "project": "./tsconfig.json" },
+  "parserOptions": { "project": "./tsconfig.eslint.json" },
   "rules": {
     // Regras gerais de formatação
     "indent": ["warn", 2], // Indentação com 2 espaços
