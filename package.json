@@ -3,24 +3,6 @@
   "version": "1.1.1",
   "description": "",
   "main": "index.js",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "lint-push"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{ts,jsx,ts,tsx}": [
-      "npm run lint",
-      "npm run test:staged"
-    ]
-  },
-  "lint-push": {
-    "src/**/*.{ts,jsx,ts,tsx}": [
-      "npm run lint",
-      "npm run test:ci"
-    ]
-  },
   "scripts": {
     "build": "rimraf dist && tsc",
     "dev": "sucrase-node src/main/server.ts",
@@ -32,8 +14,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "lint": "eslint src/**/*.ts --max-warnings=0",
-    "lintfix": "eslint src/**/*.ts --fix",
-    "prepare": "husky"
+    "lintfix": "eslint src/**/*.ts --fix"
   },
   "keywords": [],
   "author": "",
